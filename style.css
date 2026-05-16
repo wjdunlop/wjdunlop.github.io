@@ -1,0 +1,660 @@
+/* Will Dunlop — personal site. Editorial type on warm paper. */
+
+:root {
+  --ink: #1a1814;
+  --ink-soft: rgba(26, 24, 20, 0.7);
+  --paper-bg: #d8d7d3;
+  --paper-sheet: #ebeae6;
+  --accent: #1a3a52;
+  --accent-soft: rgba(26, 58, 82, 0.12);
+  --card-border: 2px solid var(--ink);
+  --card-shadow:
+    3px 3px 0 -1px rgba(26, 24, 20, 0.18),
+    6px 6px 0 -3px rgba(26, 24, 20, 0.10);
+  --card-pad: 26px;
+  --card-pad-y: 24px;
+  --rule: 2px solid var(--ink);
+  --rule-hair: 1px solid var(--ink);
+  --rule-dashed: 1px dashed var(--ink);
+}
+
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
+body {
+  margin: 0;
+  background-color: var(--paper-bg);
+  background-image:
+    radial-gradient(ellipse at 14% 18%, rgba(60, 60, 60, 0.14) 0, transparent 9%),
+    radial-gradient(ellipse at 86% 28%, rgba(60, 60, 60, 0.10) 0, transparent 7%),
+    radial-gradient(ellipse at 30% 78%, rgba(60, 60, 60, 0.12) 0, transparent 10%),
+    radial-gradient(circle at 78% 88%, rgba(60, 60, 60, 0.09) 0, transparent 6%),
+    radial-gradient(circle at 50% 50%, rgba(90, 90, 90, 0.05) 0, transparent 70%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='c'><feTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='3' stitchTiles='stitch' seed='7'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.18  0 0 0 0 0.18  0 0 0 0.28 0'/></filter><rect width='100%25' height='100%25' filter='url(%23c)'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='1' stitchTiles='stitch' seed='3'/><feColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.12  0 0 0 0 0.12  0 0 0 0.26 0'/></filter><rect width='100%25' height='100%25' filter='url(%23f)'/></svg>");
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 56px 28px 96px;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+a:hover { background: var(--ink); color: var(--paper-sheet); text-decoration: none; }
+
+h1, h2, h3 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: 2.4rem;
+  line-height: 1.1;
+  margin-top: 16px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin: 64px 0 18px;
+  padding-bottom: 8px;
+  border-bottom: var(--rule);
+  letter-spacing: -0.005em;
+}
+
+h3 {
+  font-size: 1.05rem;
+  margin: 0 0 4px;
+}
+
+.hero {
+  border: var(--card-border);
+  padding: var(--card-pad-y) var(--card-pad) calc(var(--card-pad-y) + 4px);
+  margin-bottom: 14px;
+  background: var(--paper-sheet);
+  box-shadow: var(--card-shadow);
+  transform: rotate(-0.2deg);
+}
+
+.avatar {
+  display: block;
+  width: 130px;
+  height: 130px;
+  border: var(--card-border);
+  object-fit: cover;
+  margin: 0 0 6px -2px;
+  transform: rotate(0.5deg);
+}
+
+.role {
+  margin: 4px 0 12px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+}
+
+.tagline {
+  margin: 8px 0 20px;
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+.links li {
+  margin: 0;
+}
+.links li + li::before {
+  content: " / ";
+  margin: 0 8px;
+  color: var(--ink);
+}
+
+.role-card {
+  margin: 0 0 22px;
+  padding: var(--card-pad-y) var(--card-pad);
+  border: var(--card-border);
+  background: var(--paper-sheet);
+  box-shadow: var(--card-shadow);
+}
+.role-card:nth-of-type(odd) { transform: rotate(-0.2deg); }
+.role-card:nth-of-type(even) { transform: rotate(0.2deg); }
+
+.work-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.work-card {
+  border: var(--card-border);
+  padding: var(--card-pad-y) var(--card-pad);
+  display: flex;
+  flex-direction: column;
+  background: var(--paper-sheet);
+  color: var(--ink);
+  box-shadow: var(--card-shadow);
+}
+
+.work-card:nth-of-type(1) { transform: rotate(-0.2deg); }
+.work-card:nth-of-type(2) { transform: rotate(0.2deg); }
+.work-card:nth-of-type(3) { transform: rotate(-0.2deg); }
+.work-card:nth-of-type(4) { transform: rotate(0.2deg); }
+
+.work-card.invert {
+  background: var(--ink);
+  color: var(--paper-sheet);
+}
+.work-card.invert a { color: var(--paper-sheet); }
+.work-card.invert .card-tag { border-color: var(--paper-sheet); }
+
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.card-num {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+}
+
+.card-tag {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  border: 1px solid currentColor;
+  padding: 5px 8px;
+  white-space: nowrap;
+  margin-top: 6px;
+}
+
+.work-card h3 {
+  font-size: 1.05rem;
+  margin: 8px 0 6px;
+  text-transform: none;
+  letter-spacing: -0.005em;
+}
+
+.work-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.card-subs {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+  border-top: 2px solid currentColor;
+}
+
+.card-subs li {
+  padding: 14px 0 0;
+  margin-top: 14px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  border-top: 1px dashed currentColor;
+}
+.card-subs li:first-child {
+  border-top: none;
+  padding-top: 16px;
+  margin-top: 0;
+}
+
+.sub-tag {
+  display: inline-block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  margin-right: 10px;
+  padding: 2px 0 1px;
+  border-bottom: 2px solid currentColor;
+}
+
+.work-coda {
+  margin: 28px 4px 0;
+  padding: 16px 4px 0;
+  border-top: var(--rule);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.role-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 2px;
+}
+.role-card p,
+.role-card ul {
+  margin: 8px 0;
+}
+.role-card ul { padding-left: 22px; }
+
+.meta {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.85rem;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px !important;
+}
+
+.tags {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.78rem;
+  border-top: var(--rule-dashed);
+  padding-top: 10px;
+  margin-top: 14px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+ul {
+  padding-left: 20px;
+}
+li { margin: 4px 0; }
+
+.skill-group {
+  margin: 6px 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.95rem;
+}
+
+footer {
+  margin-top: 80px;
+  padding-top: 18px;
+  border-top: var(--rule);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 720px) {
+  html, body { overflow-x: hidden; }
+  body { font-size: 16px; line-height: 1.5; }
+  main { padding: 40px 16px 64px; }
+  .work-grid { grid-template-columns: 1fr; }
+  /* The font picker is a desk-side curiosity, not essential nav — hide on phones. */
+  .font-picker { display: none !important; }
+  .hero, .role-card, .work-card { padding: 22px 18px; }
+  .hero { transform: none; }
+  .role-card:nth-of-type(odd),
+  .role-card:nth-of-type(even),
+  .work-card:nth-of-type(1),
+  .work-card:nth-of-type(2),
+  .work-card:nth-of-type(3),
+  .work-card:nth-of-type(4) { transform: none; }
+  .card-head { flex-wrap: wrap; row-gap: 4px; }
+  .card-num { font-size: 2.4rem; }
+  .card-tag { font-size: 0.6rem; padding: 4px 7px; letter-spacing: 0.12em; }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.3rem; margin: 44px 0 14px; }
+  .work-card h3 { font-size: 1rem; }
+  .role-card h3 { font-size: 1rem; }
+  .links { flex-wrap: wrap; gap: 2px 0; }
+  .about-head { flex-wrap: wrap; gap: 8px; }
+  .work-coda { font-size: 0.86rem; }
+  /* Variant nav: keep compact on phones */
+  #wjd-varnav { top: 12px !important; left: 12px !important; }
+  #wjd-varnav-btn { height: 34px !important; padding: 0 11px !important; font-size: 12px !important; }
+  #wjd-varnav-list { min-width: 170px !important; }
+  #wjd-varnav-list a { padding: 8px 14px !important; font-size: 14px !important; }
+}
+
+@media (max-width: 420px) {
+  main { padding: 32px 12px 56px; }
+  .hero, .role-card, .work-card { padding: 18px 14px; }
+  h1 { font-size: 1.8rem; }
+  .card-num { font-size: 2rem; }
+  .avatar { width: 96px; height: 96px; }
+  /* Inline links stack one-per-line if they wrap */
+  .links li + li::before { content: ""; margin: 0 6px 0 0; }
+}
+
+/* ─── Font picker ─────────────────────────────── */
+.font-picker {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  display: flex;
+  align-items: stretch;
+  background: var(--paper-sheet);
+  border: var(--card-border);
+  box-shadow: var(--card-shadow);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.font-picker .picker-label {
+  padding: 8px 10px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  border-right: var(--rule-hair);
+  align-self: center;
+  background: var(--ink);
+  color: var(--paper-sheet);
+}
+.font-picker button {
+  background: transparent;
+  border: none;
+  border-right: var(--rule-hair);
+  color: var(--ink);
+  cursor: pointer;
+  padding: 8px 11px;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+.font-picker button:last-child { border-right: none; }
+.font-picker button:hover { background: rgba(26, 24, 20, 0.08); }
+.font-picker button.active {
+  background: var(--ink);
+  color: var(--paper-sheet);
+}
+
+/* Each button rendered in its own font, as a live preview */
+.font-picker button[data-font="a"] { font-family: Georgia, "Times New Roman", Times, serif; font-style: italic; }
+.font-picker button[data-font="b"] { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; }
+.font-picker button[data-font="c"] { font-family: 'JetBrains Mono', "Courier New", monospace; text-transform: lowercase; }
+.font-picker button[data-font="d"] { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 600; }
+
+/* ─── Font theme: A · Editorial (default) ─────── */
+body.font-a {
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+body.font-a h1,
+body.font-a h2,
+body.font-a h3,
+body.font-a .meta,
+body.font-a .tags,
+body.font-a .role,
+body.font-a .card-tag,
+body.font-a .card-num,
+body.font-a .sub-tag,
+body.font-a .skill-group,
+body.font-a footer,
+body.font-a .work-card h3,
+body.font-a .role-card h3 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* ─── Font theme: B · Classic (Lora + Playfair) ── */
+body.font-b {
+  font-family: 'Lora', Georgia, "Times New Roman", serif;
+}
+body.font-b h1,
+body.font-b h2,
+body.font-b h3,
+body.font-b .card-num,
+body.font-b .work-card h3,
+body.font-b .role-card h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 800;
+  letter-spacing: -0.005em;
+}
+body.font-b .meta,
+body.font-b .tags,
+body.font-b .role,
+body.font-b .card-tag,
+body.font-b .sub-tag,
+body.font-b .skill-group,
+body.font-b footer {
+  font-family: 'Lora', Georgia, serif;
+}
+body.font-b .tagline { font-style: italic; }
+
+/* ─── Font theme: C · Mono (JetBrains Mono) ───── */
+body.font-c {
+  font-family: 'JetBrains Mono', "Courier New", ui-monospace, monospace;
+  font-size: 16px;
+  line-height: 1.6;
+}
+body.font-c h1,
+body.font-c h2,
+body.font-c h3,
+body.font-c .meta,
+body.font-c .tags,
+body.font-c .role,
+body.font-c .card-tag,
+body.font-c .card-num,
+body.font-c .sub-tag,
+body.font-c .skill-group,
+body.font-c footer,
+body.font-c .work-card h3,
+body.font-c .role-card h3 {
+  font-family: 'JetBrains Mono', "Courier New", ui-monospace, monospace;
+}
+body.font-c h1 { font-size: 2rem; letter-spacing: -0.04em; }
+body.font-c h2 { font-size: 1.2rem; letter-spacing: -0.02em; }
+body.font-c .card-num { font-size: 2.6rem; }
+body.font-c .card-tag,
+body.font-c .sub-tag { letter-spacing: 0.06em; }
+
+/* ─── Font theme: D · Modern (Inter + Space Grotesk) ── */
+body.font-d {
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+body.font-d h1,
+body.font-d h2,
+body.font-d h3,
+body.font-d .card-num,
+body.font-d .work-card h3,
+body.font-d .role-card h3 {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+body.font-d .meta,
+body.font-d .tags,
+body.font-d .role,
+body.font-d .card-tag,
+body.font-d .sub-tag,
+body.font-d .skill-group,
+body.font-d footer {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+body.font-d .tagline { font-style: normal; font-weight: 500; }
+
+/* ─── About: language toggle ───────────────────────────────── */
+.about-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.lang-toggle {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.lang-toggle:hover { background: var(--accent); color: var(--paper-sheet); border-color: var(--accent); }
+.lang-toggle[data-lang="en"] [data-when="en"],
+.lang-toggle[data-lang="ca"] [data-when="ca"] { display: inline; }
+.lang-toggle[data-lang="en"] [data-when="ca"],
+.lang-toggle[data-lang="ca"] [data-when="en"] { display: none; }
+
+/* ─── Footer: now-spinning + colophon ──────────────────────── */
+footer .spinning {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  margin: 0 0 8px;
+  font-style: italic;
+}
+footer .spinning em { font-style: normal; }
+footer .spinning-label {
+  font-style: normal;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-right: 8px;
+  color: var(--accent);
+}
+footer .colophon {
+  display: block;
+  margin: 16px auto 0;
+  opacity: 0.85;
+}
+
+/* ─── Subtle accent on inline links ────────────────────────── */
+section a, footer a { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+section a:hover, footer a:hover { background: var(--accent-soft); }
+.role-card a, .work-card a { color: inherit; }
+
+/* ─── Print stylesheet ─────────────────────────────────────── */
+@media print {
+  body {
+    background: white !important;
+    background-image: none !important;
+    color: black;
+    font-size: 10.5pt;
+    line-height: 1.4;
+  }
+  body::before, body::after { display: none !important; }
+  main { max-width: 100%; padding: 0; }
+  .font-picker, #wjd-varnav, .lang-toggle, .about-body[data-lang="ca"] { display: none !important; }
+  .hero, .role-card, .work-card { transform: none !important; box-shadow: none !important; border: 1px solid #444; background: white !important; color: black !important; page-break-inside: avoid; }
+  .work-card.invert { background: white !important; color: black !important; }
+  .work-card.invert .card-tag { border-color: black; color: black; }
+  h1 { font-size: 22pt; margin: 0 0 6pt; }
+  h2 { font-size: 13pt; margin: 14pt 0 6pt; border-bottom: 1pt solid black; }
+  h3 { font-size: 11pt; }
+  section { page-break-inside: avoid; margin: 8pt 0; }
+  a { color: black; text-decoration: none; }
+  a[href^="http"]::after, a[href^="mailto:"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8.5pt;
+    color: #555;
+  }
+  footer .colophon { display: none; }
+  footer .spinning { display: none; }
+  .avatar { display: none; }
+}
+
+/* ─── Role history (stacked titles + descriptions within one employer card) ── */
+.role-card ul.role-history {
+  list-style: none;
+  padding: 0 0 0 14px;
+  margin: 6px 0 14px;
+  color: var(--ink);
+  border-left: 2px solid var(--accent);
+}
+.role-card ul.role-history > li {
+  margin: 0 0 16px;
+  padding: 0;
+}
+.role-card ul.role-history > li:last-child { margin-bottom: 0; }
+.role-card ul.role-history .role-title {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.92rem;
+  margin: 0 0 4px !important;
+}
+.role-card ul.role-history .role-title strong { font-weight: 700; }
+.role-card ul.role-history .role-dates {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  margin-left: 6px;
+}
+.role-card ul.role-history > li > p:not(.role-title) {
+  margin: 4px 0 0 !important;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+/* ─── Reading mode toggle (Technical / Plain English) ─────── */
+.mode-bar {
+  display: flex;
+  align-items: stretch;
+  width: fit-content;
+  margin: 0 auto 22px;
+  border: var(--card-border);
+  background: var(--paper-sheet);
+  box-shadow: var(--card-shadow);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.mode-bar-label {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  border-right: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper-sheet);
+}
+.mode-btn {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--ink);
+  padding: 9px 16px;
+  font: inherit;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 0;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.mode-btn:last-child { border-right: 0; }
+.mode-btn:not([aria-pressed="true"]):hover { background: var(--accent-soft); }
+.mode-btn[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--paper-sheet);
+}
+
+/* Mode body visibility */
+body.mode-plain .mode-body[data-mode="tech"],
+body.mode-tech  .mode-body[data-mode="plain"] { display: none; }
+
+/* Plain mode tweaks */
+body.mode-plain .lang-toggle,
+body.mode-plain .hide-on-plain { display: none; }
+
+/* Mobile */
+@media (max-width: 480px) {
+  .mode-bar { width: 100%; }
+  .mode-btn { flex: 1; padding: 10px 6px; font-size: 0.66rem; letter-spacing: 0.1em; }
+  .mode-bar-label { display: none; }
+}

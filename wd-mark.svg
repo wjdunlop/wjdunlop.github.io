@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 80" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+  <g font-family="Georgia, 'Times New Roman', serif" font-weight="700" fill="#1a1814" text-anchor="middle">
+    <text x="55" y="50" font-size="44">W</text>
+    <text x="85" y="50" font-size="44">D</text>
+  </g>
+  <line x1="70" y1="14" x2="70" y2="54" stroke="#1a3a52" stroke-width="1.2" stroke-linecap="round"/>
+  <g stroke="#1a1814" stroke-width="0.6" stroke-linecap="round" opacity="0.7">
+    <line x1="40" y1="68" x2="66" y2="68"/>
+    <line x1="74" y1="68" x2="100" y2="68"/>
+  </g>
+  <circle cx="70" cy="68" r="1.2" fill="#1a3a52"/>
+</svg>

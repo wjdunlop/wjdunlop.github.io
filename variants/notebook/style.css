@@ -1,0 +1,871 @@
+/* =========================================================
+   Will Dunlop — Notebook variant
+   A page from an engineer's Moleskine.
+   ========================================================= */
+
+:root {
+  --paper:        #f7eedb;
+  --paper-deep:   #efe3c4;
+  --paper-shadow: #d9c89a;
+  --rule:         #b9d2dd;   /* faint blue ruled lines */
+  --grid:         #d6c9a4;   /* graph paper crossing  */
+  --margin:       #d27a7a;   /* the red margin rule   */
+  --ink:          #1c2a44;   /* dark blue ballpoint   */
+  --ink-soft:     #2d3e63;
+  --pencil:       #8a7e64;   /* graphite              */
+  --pen-red:      #b4382a;
+  --highlight:    #fce67d;
+  --note-yellow:  #fff19a;
+  --note-pink:    #ffcfd9;
+  --note-blue:    #bfe2ee;
+  --tape:         rgba(247, 232, 153, .72);
+  --tape-edge:    rgba(220, 200, 100, .35);
+
+  --serif:    "Crimson Pro", Georgia, "Iowan Old Style", serif;
+  --hand:     "Caveat", "Bradley Hand", cursive;
+  --hand2:    "Kalam", "Caveat", cursive;
+  --mono:     "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink);
+  /* Outside the "paper" looks like a desk — warm taupe. */
+  background:
+    radial-gradient(ellipse at 20% 0%, #cdb88e, transparent 60%),
+    radial-gradient(ellipse at 100% 100%, #b89a6a, transparent 70%),
+    #a88a5c;
+  min-height: 100vh;
+  padding: clamp(24px, 4vw, 72px) clamp(16px, 4vw, 60px);
+}
+
+/* =========================================================
+   THE PAGE
+   Graph paper + a left ruled margin in red.
+   ========================================================= */
+.page {
+  position: relative;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding:
+    clamp(32px, 5vw, 64px)
+    clamp(28px, 5vw, 72px)
+    clamp(56px, 6vw, 96px)
+    clamp(60px, 9vw, 130px);   /* extra left padding for margin gutter */
+  background-color: var(--paper);
+
+  /* Graph paper grid (24px cells) + horizontal rules (28px) layered. */
+  background-image:
+    /* fine graph */
+    repeating-linear-gradient(
+      to right,
+      transparent 0,
+      transparent 23px,
+      rgba(160, 140, 95, .18) 23px,
+      rgba(160, 140, 95, .18) 24px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 23px,
+      rgba(160, 140, 95, .18) 23px,
+      rgba(160, 140, 95, .18) 24px
+    ),
+    /* heavier horizontal rules every 4th line ~96px */
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 95px,
+      rgba(110, 150, 175, .22) 95px,
+      rgba(110, 150, 175, .22) 96px
+    ),
+    /* paper warmth */
+    radial-gradient(ellipse at 30% 10%, #fff5d8 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 90%, #ecdcb0 0%, transparent 65%);
+
+  /* Red margin rule */
+  border-left: 0;
+  box-shadow:
+    0 2px 0 #d3bd8a,
+    0 30px 60px -20px rgba(40, 25, 0, .55),
+    0 12px 30px -8px  rgba(40, 25, 0, .35);
+}
+
+/* the actual red vertical margin line */
+.page::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: clamp(46px, 7vw, 96px);
+  width: 1.2px;
+  background: var(--margin);
+  opacity: .72;
+  box-shadow: 1px 0 0 rgba(180, 56, 42, .25);
+}
+
+/* page edge subtle shadow inside */
+.page::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to right, rgba(120, 90, 30, .12), transparent 40px),
+    linear-gradient(to bottom, rgba(120, 90, 30, .10), transparent 40px);
+}
+
+/* =========================================================
+   PAGE TOP — date stamp + binder punch holes
+   ========================================================= */
+.page__top {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
+}
+.datestamp {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+  color: var(--pencil);
+  border: 1.4px solid var(--pencil);
+  padding: 5px 12px 4px;
+  border-radius: 2px;
+  transform: rotate(-1.5deg);
+  background: rgba(255, 250, 230, .55);
+}
+.datestamp__no { font-weight: 600; }
+.datestamp__dot { margin: 0 6px; }
+
+/* binder holes — bottom of the page top strip */
+.punch {
+  position: absolute;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  left: clamp(10px, 2.5vw, 22px);
+  background:
+    radial-gradient(circle at 35% 30%, #fff 0%, #efe1bb 50%, #b69d6a 100%);
+  box-shadow:
+    inset 0 1px 2px rgba(0,0,0,.35),
+    inset 0 -1px 1px rgba(255,255,255,.4);
+}
+.punch--1 { top: 0; }
+.punch--2 { top: 50%; transform: translateY(-50%); }
+.punch--3 { top: 100%; }
+/* But these are placed inside .page__top which is short. Move them to the page itself. */
+
+/* override: anchor punches to the page, vertically */
+.page > .page__top .punch { display: none; }
+.page::before { z-index: 1; }
+
+/* Re-emit punches anchored along left of the page */
+.page > .page__top { position: relative; }
+
+/* Actually, place them via pseudo content along the left red margin. */
+.page .punch--1,
+.page .punch--2,
+.page .punch--3 {
+  display: block;
+  position: absolute;
+  left: clamp(14px, 3vw, 30px);
+}
+.page .punch--1 { top: 14%; }
+.page .punch--2 { top: 50%; }
+.page .punch--3 { top: 86%; }
+
+/* =========================================================
+   HEADINGS — pen-style serif with wobbly SVG underline
+   ========================================================= */
+.h2 {
+  position: relative;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(28px, 3.4vw, 40px);
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  margin: 56px 0 18px;
+  display: inline-block;
+}
+.h2 em {
+  font-family: var(--hand);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.78em;
+  color: var(--ink-soft);
+  margin-left: 6px;
+}
+.h2 .pencil {
+  font-family: var(--hand);
+  font-size: 0.6em;
+  color: var(--pencil);
+  font-weight: 400;
+  margin-left: 8px;
+  vertical-align: 4px;
+}
+
+.under {
+  display: block;
+  width: 100%;
+  height: 14px;
+  margin-top: -2px;
+  color: var(--ink);
+}
+.under--name { color: var(--pen-red); height: 18px; }
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: start;
+  margin-top: 8px;
+}
+.hero__head { max-width: 580px; position: relative; }
+
+.kicker {
+  font-family: var(--hand);
+  color: var(--pencil);
+  font-size: 22px;
+  margin: 0 0 4px;
+  letter-spacing: .02em;
+  transform: rotate(-1deg);
+  display: inline-block;
+}
+
+.hero__name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(54px, 8vw, 92px);
+  line-height: 1.0;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  display: inline-block;
+  position: relative;
+}
+.hero__name .under--name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  width: 100%;
+}
+
+.hero__role {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--ink);
+  margin: 14px 0 8px;
+}
+.hero__role em {
+  font-family: var(--hand);
+  font-style: normal;
+  font-size: 1.15em;
+  color: var(--pen-red);
+}
+.ink { color: var(--ink); font-weight: 600; }
+
+.pencil {
+  font-family: var(--hand);
+  color: var(--pencil);
+  font-size: 1.05em;
+  font-weight: 400;
+  margin-left: 8px;
+}
+
+.hero__tag {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 19px;
+  color: var(--ink-soft);
+  max-width: 480px;
+  margin: 14px 0 0;
+  line-height: 1.45;
+}
+.quote-left, .quote-right {
+  font-family: var(--serif);
+  font-size: 1.5em;
+  color: var(--pencil);
+  font-style: normal;
+  vertical-align: -8px;
+}
+.penU {
+  text-decoration: none;
+  background-image: linear-gradient(transparent 88%, var(--pen-red) 88%, var(--pen-red) 96%, transparent 96%);
+  padding: 0 1px;
+}
+
+/* Margin annotation — sits in the left gutter */
+.margin-note {
+  position: absolute;
+  font-family: var(--hand);
+  color: var(--pencil);
+  font-size: 18px;
+  line-height: 1.1;
+}
+.margin-note__text {
+  display: inline-block;
+  transform: rotate(-6deg);
+}
+.margin-note--name {
+  left: calc(-1 * clamp(40px, 7vw, 110px));
+  top: 70px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.margin-arrow {
+  width: 64px; height: 44px;
+  color: var(--pencil);
+  transform: rotate(8deg);
+}
+.margin-note--about {
+  left: calc(-1 * clamp(36px, 6vw, 92px));
+  top: 30%;
+  color: var(--pencil);
+}
+.margin-note--coda {
+  left: calc(-1 * clamp(28px, 5vw, 80px));
+  top: 60%;
+}
+
+/* =========================================================
+   POLAROID
+   ========================================================= */
+.polaroid {
+  position: relative;
+  width: clamp(180px, 22vw, 260px);
+  padding: 12px 12px 42px;
+  background: #fdfaf0;
+  box-shadow:
+    0 14px 28px -12px rgba(40, 25, 0, .45),
+    0 2px 0 rgba(0,0,0,.04);
+  transform: rotate(3.2deg);
+  margin-top: 18px;
+  justify-self: end;
+}
+.polaroid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: saturate(.92) contrast(.96);
+  border: 1px solid #e8dcb8;
+}
+.polaroid figcaption {
+  font-family: var(--hand);
+  text-align: center;
+  font-size: 22px;
+  color: var(--pencil);
+  margin-top: 8px;
+  line-height: 1;
+}
+
+/* washi tape strips */
+.tape {
+  position: absolute;
+  width: 88px;
+  height: 22px;
+  background: var(--tape);
+  border-left: 1px dashed var(--tape-edge);
+  border-right: 1px dashed var(--tape-edge);
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.12),
+    inset 0 0 0 1px rgba(255,255,255,.25);
+}
+.tape::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,.18) 0 6px,
+      transparent 6px 12px
+    );
+  opacity: .5;
+}
+.tape--tl {
+  top: -10px; left: -22px;
+  transform: rotate(-32deg);
+}
+.tape--br {
+  bottom: 36px; right: -22px;
+  transform: rotate(-30deg);
+  background: rgba(255, 200, 220, .72);
+}
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+.contact {
+  display: flex;
+  align-items: flex-end;
+  gap: 22px;
+  margin: 36px 0 8px;
+  flex-wrap: wrap;
+}
+.contact__card { min-width: 280px; max-width: 360px; }
+.contact__card h3 {
+  font-family: var(--hand);
+  font-weight: 700;
+  font-size: 28px;
+  margin: 0 0 6px;
+  color: var(--ink);
+  display: flex; align-items: center; gap: 6px;
+}
+.contact__card a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  background-image: linear-gradient(transparent 88%, var(--pen-red) 88%, var(--pen-red) 95%, transparent 95%);
+}
+.contact__card a:hover { color: var(--pen-red); }
+
+.contact__scribble {
+  font-family: var(--hand);
+  font-size: 22px;
+  color: var(--pencil);
+  transform: rotate(-2deg);
+  margin-bottom: 12px;
+}
+
+/* =========================================================
+   STICKY NOTES
+   ========================================================= */
+.sticky {
+  position: relative;
+  background: var(--note-yellow);
+  padding: 22px 20px 18px;
+  width: 100%;
+  max-width: 320px;
+  box-shadow:
+    0 1px 0 rgba(0,0,0,.04),
+    0 14px 24px -14px rgba(40,25,0,.45),
+    0 4px 8px -4px rgba(40,25,0,.25);
+  border-radius: 2px;
+  /* subtle paper texture via gradient */
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.5), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.15), rgba(0,0,0,.04));
+  background-color: var(--note-yellow);
+}
+.sticky--pink   { background-color: var(--note-pink); }
+.sticky--blue   { background-color: var(--note-blue); }
+.sticky--rotL   { transform: rotate(-2deg); }
+.sticky--rotR   { transform: rotate(1.6deg); }
+.sticky--big    { max-width: 460px; padding: 26px 24px; }
+
+.sticky h3, .sticky h4 {
+  font-family: var(--hand2);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--ink);
+  margin: 0 0 8px;
+  line-height: 1.1;
+}
+.sticky h3 { font-size: 28px; }
+.sticky p {
+  font-family: var(--serif);
+  font-size: 16px;
+  margin: 0;
+  color: var(--ink);
+}
+.sticky em { font-family: var(--hand); font-style: normal; color: var(--ink-soft); }
+
+.tape-strip {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 92px; height: 22px;
+  background: var(--tape);
+  border-left: 1px dashed var(--tape-edge);
+  border-right: 1px dashed var(--tape-edge);
+  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+}
+.tape-strip::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    90deg, rgba(255,255,255,.2) 0 6px, transparent 6px 12px
+  );
+  opacity: .55;
+}
+
+.sticky-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+  margin: 22px 0 12px;
+}
+
+/* =========================================================
+   HAND LISTS
+   ========================================================= */
+.hand-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+.hand-list li {
+  position: relative;
+  padding-left: 28px;
+  margin: 8px 0;
+  font-family: var(--serif);
+  line-height: 1.5;
+}
+.hand-list--tight li { margin: 4px 0; font-size: 16px; }
+.bullet {
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 18px;
+  height: 18px;
+  color: var(--pen-red);
+}
+.hand-list--tight .bullet {
+  width: 10px; height: 10px;
+  top: 9px;
+  color: var(--ink);
+}
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+.about { position: relative; margin-top: 12px; }
+.about p { margin: 10px 0; max-width: 740px; }
+.hl {
+  background: linear-gradient(transparent 50%, var(--highlight) 50%);
+  padding: 0 2px;
+}
+
+/* doodles scattered */
+.doodle {
+  position: absolute;
+  color: var(--pencil);
+  opacity: .85;
+  pointer-events: none;
+}
+.doodle--coffee {
+  width: 60px; height: 60px;
+  right: 18px; top: 20px;
+  transform: rotate(8deg);
+  color: var(--ink-soft);
+}
+.doodle--star1 {
+  width: 36px; height: 36px;
+  right: 20px; top: 0;
+  color: var(--pen-red);
+  transform: rotate(-12deg);
+}
+.doodle--spark1 {
+  width: 26px; height: 26px;
+  position: absolute;
+  top: -8px; right: -10px;
+  color: var(--pen-red);
+}
+.doodle--spark2 {
+  width: 30px; height: 30px;
+  position: absolute;
+  right: 30%;
+  bottom: -12px;
+  color: var(--pen-red);
+  transform: rotate(15deg);
+}
+.doodle--bolt {
+  width: 36px; height: 48px;
+  position: absolute;
+  right: 10px; top: 4px;
+  color: var(--pen-red);
+  transform: rotate(12deg);
+}
+
+.inline-doodle {
+  display: inline-block;
+  width: 18px; height: 18px;
+  vertical-align: -3px;
+  color: var(--pen-red);
+}
+
+/* =========================================================
+   WORK CHAPTERS
+   ========================================================= */
+.work { position: relative; }
+.chapter {
+  position: relative;
+  margin: 28px 0 36px;
+  padding: 10px 0 4px;
+}
+.chapter__head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+.chapter__no {
+  font-family: var(--hand);
+  font-size: 56px;
+  line-height: 0.9;
+  color: var(--pen-red);
+  font-weight: 700;
+  transform: rotate(-3deg);
+  display: inline-block;
+}
+.chapter__head h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 28px;
+  margin: 0;
+  color: var(--ink);
+}
+.chapter__doodle {
+  width: 28px; height: 36px;
+  color: var(--pen-red);
+  margin-left: 6px;
+}
+
+/* =========================================================
+   CODA / margin
+   ========================================================= */
+.coda { position: relative; margin-top: 8px; }
+.coda p { max-width: 760px; }
+
+/* =========================================================
+   EXPERIENCE TIMELINE
+   ========================================================= */
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
+  position: relative;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 132px;
+  top: 8px; bottom: 8px;
+  width: 2px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      var(--pencil) 0 6px,
+      transparent 6px 12px
+    );
+  opacity: .6;
+}
+.job {
+  position: relative;
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 24px;
+  padding: 14px 0 18px 0;
+  align-items: start;
+}
+.job::before {
+  content: "";
+  position: absolute;
+  left: 126px;
+  top: 22px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--pen-red);
+  box-shadow: inset 0 0 0 2px var(--paper);
+}
+.job--now::before {
+  background: var(--pen-red);
+  box-shadow: 0 0 0 4px rgba(180, 56, 42, .2);
+}
+.job__when {
+  font-family: var(--hand);
+  color: var(--pencil);
+  font-size: 20px;
+  line-height: 1.05;
+  text-align: right;
+  padding-right: 16px;
+}
+.job__when .date { display: block; }
+.job__what {
+  padding-left: 28px;
+}
+.job__what h4 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 22px;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+.job__what p {
+  margin: 4px 0;
+  font-size: 17px;
+}
+.job__what .tags {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--pencil);
+  letter-spacing: .02em;
+}
+.job__doodle {
+  position: absolute;
+  right: 0; top: 0;
+  width: 30px; height: 30px;
+  color: var(--pen-red);
+  transform: rotate(-10deg);
+}
+
+/* =========================================================
+   EDUCATION
+   ========================================================= */
+.edu { position: relative; }
+.edu .sticky { margin-top: 18px; }
+.edu__line { font-family: var(--hand); font-size: 20px; color: var(--ink-soft); margin: 0 0 8px; }
+
+/* =========================================================
+   TECH GRID
+   ========================================================= */
+.tech { position: relative; }
+.tech__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 22px 28px;
+  margin-top: 18px;
+}
+.tech__col h5 {
+  font-family: var(--hand);
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: var(--pen-red);
+  border-bottom: 1.4px dashed var(--pencil);
+  padding-bottom: 4px;
+  display: inline-block;
+}
+
+/* =========================================================
+   SIGN OFF
+   ========================================================= */
+.signoff {
+  margin: 60px 0 0;
+  text-align: right;
+}
+.signoff__hand {
+  font-family: var(--hand);
+  font-size: 30px;
+  color: var(--ink);
+  margin: 0;
+}
+.signoff__sig {
+  font-family: var(--hand);
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--pen-red);
+  margin: 6px 0 6px;
+  transform: rotate(-3deg);
+  display: inline-block;
+}
+.signoff__small {
+  font-family: var(--hand);
+  font-size: 16px;
+  color: var(--pencil);
+  margin: 0;
+}
+
+/* =========================================================
+   PAGE CURL (bottom-right corner)
+   ========================================================= */
+.page-curl {
+  position: absolute;
+  right: -2px; bottom: -2px;
+  width: 80px; height: 80px;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, transparent 50%, #e3d2a6 50%, #c9b377 70%, #b89a5c 100%);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  box-shadow:
+    -6px -6px 10px -4px rgba(40,25,0,.35) inset,
+    -8px -8px 18px -8px rgba(40,25,0,.45);
+}
+
+/* =========================================================
+   LINKS (default)
+   ========================================================= */
+a { color: var(--ink); }
+
+code {
+  font-family: var(--mono);
+  font-size: .9em;
+  background: rgba(0,0,0,.04);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 820px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .polaroid {
+    justify-self: start;
+    margin-top: 4px;
+  }
+  .timeline::before {
+    left: 8px;
+  }
+  .job {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding-left: 32px;
+  }
+  .job__when {
+    text-align: left;
+    padding-right: 0;
+  }
+  .job::before {
+    left: 0; top: 8px;
+  }
+  .job__what { padding-left: 0; }
+  .margin-note--name,
+  .margin-note--about,
+  .margin-note--coda {
+    position: static;
+    display: block;
+    margin: 8px 0;
+    transform: rotate(-1.5deg);
+  }
+  .margin-arrow { display: none; }
+  .doodle--coffee, .doodle--star1, .doodle--bolt { display: none; }
+}
+
+@media (max-width: 520px) {
+  body { padding: 12px; font-size: 17px; }
+  .page {
+    padding: 28px 18px 56px 44px;
+  }
+  .hero__name { font-size: 48px; }
+  .h2 { font-size: 26px; }
+  .sticky { max-width: 100%; transform: none; }
+  .sticky--rotL, .sticky--rotR { transform: rotate(-1deg); }
+}
+
+/* =========================================================
+   SUBTLE PAPER NOISE OVERLAY
+   ========================================================= */
+.page {
+  /* extra: speckle */
+  position: relative;
+}
+.page > *:not(.page-curl) {
+  position: relative;
+  z-index: 2;
+}

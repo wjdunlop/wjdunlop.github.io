@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+  <defs>
+    <radialGradient id="paper" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#fdf9ec"/>
+      <stop offset="100%" stop-color="#f5efdd"/>
+    </radialGradient>
+    <pattern id="grain" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="transparent"/>
+      <circle cx="1" cy="1" r="0.35" fill="#1a1814" opacity="0.035"/>
+      <circle cx="3" cy="2.6" r="0.25" fill="#1a1814" opacity="0.025"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#paper)"/>
+  <rect width="1200" height="630" fill="url(#grain)"/>
+
+  <!-- top hairline -->
+  <line x1="96" y1="96" x2="1104" y2="96" stroke="#1a1814" stroke-width="1" opacity="0.5"/>
+  <line x1="96" y1="534" x2="1104" y2="534" stroke="#1a1814" stroke-width="1" opacity="0.5"/>
+
+  <!-- small eyebrow label -->
+  <text x="96" y="138" font-family="Helvetica, Arial, sans-serif" font-size="18" letter-spacing="6" fill="#1a3a52" font-weight="600">W &#183; D</text>
+
+  <!-- name -->
+  <text x="96" y="340" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="172" fill="#1a1814" letter-spacing="-2">Will Dunlop</text>
+
+  <!-- subtitle -->
+  <text x="100" y="408" font-family="Helvetica, Arial, sans-serif" font-size="32" fill="#1a1814" opacity="0.78">Lead AI Engineer &#183; London</text>
+
+  <!-- bottom-right mark -->
+  <g transform="translate(980 470)">
+    <g font-family="Georgia, 'Times New Roman', serif" font-weight="700" fill="#1a1814" text-anchor="middle">
+      <text x="40" y="48" font-size="56">W</text>
+      <text x="120" y="48" font-size="56">D</text>
+    </g>
+    <line x1="80" y1="6" x2="80" y2="56" stroke="#1a3a52" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+</svg>

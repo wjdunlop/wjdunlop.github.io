@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+  <rect width="32" height="32" rx="4" fill="#fbf6e7"/>
+  <g font-family="Georgia, 'Times New Roman', serif" font-weight="700" fill="#1a1814" text-anchor="middle">
+    <text x="10.5" y="22" font-size="20">W</text>
+    <text x="22" y="22" font-size="20">D</text>
+  </g>
+  <line x1="16" y1="9" x2="16" y2="23" stroke="#1a3a52" stroke-width="0.9" stroke-linecap="round"/>
+</svg>
